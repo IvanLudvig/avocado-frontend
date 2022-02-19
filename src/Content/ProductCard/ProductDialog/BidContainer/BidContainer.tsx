@@ -7,7 +7,7 @@ export const primary = '#e1f5fe';
 const useStyles = makeStyles({
     bid: {
         postion: 'absolute',
-        right: '-13px',
+        right: '-14px',
         margin: 0,
         height: '40px',
         marginLeft: '-8px'
@@ -19,9 +19,8 @@ const useStyles = makeStyles({
     },
     bidContainer: {
         position: 'absolute',
-        right: '8px',
-        margin: '8px',
-        top: '96px'
+        left: '320px',
+        top: '108px'
     }
 });
 

@@ -10,11 +10,11 @@ const useStyles = makeStyles({
     container: {
         position: 'relative',
         width: '800px',
-        height: '300px'
+        // height: '300px'
     },
     price: {
         position: 'absolute',
-        right: '16px',
+        left: '320px',
         top: '64px',
         fontWeight: 'bold',
         color: '#000c66',
