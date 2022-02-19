@@ -10,7 +10,7 @@ interface OwnerIconProps {
 
 export default function OwnerIcon({ card, user }: OwnerIconProps) {
 
-    const owned = card.owner === user;
+    const owned = card.owner.toLowerCase() === user.toLowerCase();
 
     return owned ? (
         <>

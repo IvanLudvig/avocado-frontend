@@ -34,9 +34,10 @@ interface BidContainerProps {
     setError: (bid: string) => void;
     contract: Contract;
     account: string;
+    handleClose: () => void;
 }
 
-export default function BidContainer({ card, bid, setBid, error, setError, contract, account }: BidContainerProps) {
+export default function BidContainer({ card, bid, setBid, error, setError, contract, account, handleClose }: BidContainerProps) {
     const classes = useStyles();
 
     const handleChange = (e: any) => {
@@ -54,8 +55,8 @@ export default function BidContainer({ card, bid, setBid, error, setError, contr
         const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
         console.log((parseInt(card.id)), bid, 60);
 
-        const value = web3.utils.toHex(web3.utils.toHex(web3.utils.toWei(bid + '', 'ether')));
-        var transfer = contract.methods.buyAdvertisementSpace((parseInt(card.id)), value, 60);
+        const value = web3.utils.toHex(web3.utils.toWei(bid + '', 'ether'));
+        var transfer = contract.methods.buyAdvertisementSpace(parseInt(card.id), value, 60);
         var encodedABI = transfer.encodeABI();
 
         var tx = {
@@ -72,6 +73,8 @@ export default function BidContainer({ card, bid, setBid, error, setError, contr
                 method: 'eth_sendTransaction',
                 params: [tx],
             });
+
+        handleClose();
     }
 
     return (

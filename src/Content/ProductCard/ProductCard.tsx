@@ -65,7 +65,6 @@ export default function ProductCard({ card, account, contract }: ProductCardProp
     const classes = useStyles();
 
     const [open, setOpen] = React.useState(false);
-    const owned = card.owner === account;
 
     return (
         <>
@@ -75,7 +74,7 @@ export default function ProductCard({ card, account, contract }: ProductCardProp
                     <OwnerIcon card={card} user={account} />
                 </Typography>
                 <div className={classes.preview}>
-                    <Preview card={card} />
+                    <Preview card={card} owned={card.owner.toLowerCase() === account.toLowerCase()} />
                 </div>
                 <div className={classes.bottom}>
                     <Button className={classes.details} variant='contained' color='secondary' onClick={() => setOpen(true)}>Details</Button>

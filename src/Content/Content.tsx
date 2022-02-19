@@ -4,14 +4,13 @@ import ProductCard from './ProductCard/ProductCard';
 import SearchIcon from "@material-ui/icons/Search";
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
-import { injected } from '../App';
-import { Balance } from './utils/Balance';
 import { useWallet } from './utils/useWallet';
 import abi from './utils/abi.json';
-import ganache from 'ganache';
 import { Contract } from 'web3-eth-contract';
+import { Web3Provider } from '@ethersproject/providers';
+import CreateCard from './CreateCard/CreateCard';
 
-export const CONTRACT = '0x3B6F2a68b609f144664428ECB5D89e9251549897';
+export const CONTRACT = '0xF79202d560f583c17d5051C335Df8ec9410CBD55';
 
 
 const useStyles = makeStyles({
@@ -71,6 +70,7 @@ export default function Content() {
     const [search, setSearch] = useState('');
     const [domain, setDomain] = useState('');
     const [checked, setChecked] = useState(false);
+    const [open, setOpen] = useState(false);
     const [contract, setContract] = useState<Contract>();
 
     const [cards, setCards] = useState([] as CardData[]);
@@ -79,39 +79,55 @@ export default function Content() {
     const handleDomain = (e: any) => setDomain(e.target.value);
     const handleCheckbox = (e: any) => setChecked(e.target.checked);
 
-    useEffect(() => {
-        async function load() {
-            const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
-            const contract = new web3.eth.Contract(abi as any, CONTRACT);
-            setContract(contract);
-            console.log(contract.methods);
-            contract.methods
-                .getAllNFT()
-                .call({ from: currentAccount })
-                .then(
-                    (result: any) => {
-                        console.log(result);
-                        const newCards = result.map((res: any) => {
-                            const card = {
-                                id: res.id,
-                                name: res.name,
-                                price: web3.utils.fromWei(res.price, 'ether'),
-                                description: "",
-                                owner: res.owner,
-                                domain: res.domain,
-                                sizeX: parseInt(res.width),
-                                sizeY: parseInt(res.height),
-                                html: res.html
-                            }
-                            return card;
-                        }) as CardData[];
-                        setCards(newCards);
-                    }
-                );
-        }
+    async function load() {
+        const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+        const contract = new web3.eth.Contract(abi as any, CONTRACT);
+        setContract(contract);
+        console.log(contract.methods);
+        contract.methods
+            .getAllNFT()
+            .call({ from: currentAccount })
+            .then(
+                (result: any) => {
+                    console.log(result);
+                    const newCards = result.map((res: any) => {
+                        const card = {
+                            id: res.id,
+                            name: res.name,
+                            price: web3.utils.fromWei(res.price, 'ether'),
+                            description: "",
+                            owner: res.owner,
+                            domain: res.domain,
+                            sizeX: parseInt(res.width),
+                            sizeY: parseInt(res.height),
+                            html: res.html
+                        }
+                        return card;
+                    }) as CardData[];
 
+                    setCards(newCards);
+
+                    return () => {
+                        ethereum.removeAllListeners('accountsChanged')
+                    }
+                }
+            );
+    }
+
+    useEffect(() => {
         load();
     }, []);
+    useEffect(() => {
+        console.log(`listening for blocks...`)
+
+        ethereum.enable().then((accs: any) => {
+            ethereum.on('accountsChanged', (accounts: any) => {
+                load();
+            })
+        });
+    }, [currentAccount]);
+
+    const { account, library } = useWeb3React<Web3Provider>();
 
 
     //@ts-ignore
@@ -170,6 +186,12 @@ export default function Content() {
                 <Typography className={classes.address}>
                     {currentAccount}
                 </Typography>
+
+                {contract && currentAccount && <CreateCard contract={contract} currentAccount={currentAccount} open={open} setOpen={setOpen} />}
+
+                <Button variant='contained' color='secondary' onClick={() => setOpen(true)} disabled={!currentAccount || !contract}>
+                    Create new ad space
+                </Button>
             </Drawer>
             {contract && currentAccount &&
                 <div className={classes.main}>
@@ -177,7 +199,7 @@ export default function Content() {
                         || card.name.toLowerCase().includes(search.toLowerCase())
                         || card.domain?.toLowerCase().includes(search.toLowerCase()))
                         .filter(card => card.domain?.toLowerCase().includes(domain.toLowerCase()))
-                        .filter(card => !checked || (card.owner === currentAccount))
+                        .filter(card => !checked || (card.owner.toLowerCase() === currentAccount.toLowerCase()))
                         .map(card =>
                             <ProductCard key={'card' + card.id} card={card} account={currentAccount} contract={contract} />
                         )}
