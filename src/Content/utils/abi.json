@@ -117,8 +117,13 @@
 			},
 			{
 				"internalType": "uint256",
-				"name": "length",
+				"name": "width",
 				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "description",
+				"type": "string"
 			}
 		],
 		"name": "addAdvSpace",
@@ -148,7 +153,7 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "NFTid",
+				"name": "id",
 				"type": "uint256"
 			},
 			{
@@ -171,7 +176,7 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "NFTid",
+				"name": "id",
 				"type": "uint256"
 			}
 		],
@@ -273,7 +278,25 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "NFTid",
+				"name": "id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "description",
+				"type": "string"
+			}
+		],
+		"name": "setDescription",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "id",
 				"type": "uint256"
 			},
 			{
@@ -391,7 +414,7 @@
 					},
 					{
 						"internalType": "uint256",
-						"name": "NFTid",
+						"name": "id",
 						"type": "uint256"
 					},
 					{
@@ -411,8 +434,13 @@
 					},
 					{
 						"internalType": "uint256",
-						"name": "length",
+						"name": "width",
 						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "description",
+						"type": "string"
 					}
 				],
 				"internalType": "struct AdvertisementContract.advertisingSpace[]",
@@ -459,7 +487,7 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "NFTid",
+				"name": "id",
 				"type": "uint256"
 			}
 		],
@@ -478,7 +506,7 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "NFTid",
+				"name": "id",
 				"type": "uint256"
 			}
 		],
@@ -497,7 +525,7 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "NFTid",
+				"name": "id",
 				"type": "uint256"
 			}
 		],

@@ -4,6 +4,7 @@ import { CardData } from '../Content';
 import ProductDialog from './ProductDialog/ProductDialog';
 import Preview from './ProductDialog/Preview/Preview';
 import OwnerIcon from './OwnerIcon/OwnerIcon';
+import { Contract } from 'web3-eth-contract';
 
 export const primary = '#e1f5fe';
 
@@ -56,21 +57,22 @@ const useStyles = makeStyles({
 
 interface ProductCardProps {
     card: CardData;
-    user: string;
+    account: string;
+    contract: Contract;
 }
 
-export default function ProductCard({ card, user }: ProductCardProps) {
+export default function ProductCard({ card, account, contract }: ProductCardProps) {
     const classes = useStyles();
 
     const [open, setOpen] = React.useState(false);
-    const owned = card.owner === user;
+    const owned = card.owner === account;
 
     return (
         <>
             <Card className={classes.container}>
                 <Typography className={classes.datalabel}>
                     {card.name}
-                    <OwnerIcon card={card} user={user} />
+                    <OwnerIcon card={card} user={account} />
                 </Typography>
                 <div className={classes.preview}>
                     <Preview card={card} />
@@ -81,7 +83,7 @@ export default function ProductCard({ card, user }: ProductCardProps) {
                 </div>
 
             </Card>
-            <ProductDialog card={card} open={open} setOpen={setOpen} user={user} />
+            <ProductDialog card={card} open={open} setOpen={setOpen} account={account} contract={contract} />
         </>
     );
 }

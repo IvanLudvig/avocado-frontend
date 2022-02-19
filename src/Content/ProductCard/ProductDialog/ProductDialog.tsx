@@ -4,6 +4,7 @@ import { CardData } from '../../Content';
 import BidContainer from './BidContainer/BidContainer';
 import Preview from './Preview/Preview';
 import OwnerIcon from '../OwnerIcon/OwnerIcon';
+import { Contract } from 'web3-eth-contract';
 
 export const primary = '#e1f5fe';
 
@@ -52,21 +53,22 @@ interface ProductDialogProps {
     card: CardData;
     open: boolean;
     setOpen: (open: boolean) => void;
-    user: string;
+    account: string;
+    contract: Contract;
 }
 
-export default function ProductDialog({ card, open, setOpen, user }: ProductDialogProps) {
+export default function ProductDialog({ card, open, setOpen, account, contract }: ProductDialogProps) {
     const classes = useStyles();
     const [bid, setBid] = useState(card.price);
     const [error, setError] = useState('');
 
     const handleClose = () => setOpen(false);
 
-    const owned = card.owner === user;
+    const owned = card.owner === account;
 
     return (
         <Dialog classes={{ paper: classes.container }} open={open} onClose={handleClose}>
-            <DialogTitle>{card.name} <OwnerIcon card={card} user={user} /></DialogTitle>
+            <DialogTitle>{card.name} <OwnerIcon card={card} user={account} /></DialogTitle>
             <DialogContent>
                 <Preview card={card} />
 
@@ -100,7 +102,7 @@ export default function ProductDialog({ card, open, setOpen, user }: ProductDial
                 }
 
                 {!owned &&
-                    <BidContainer card={card} bid={bid} setBid={setBid} error={error} setError={setError} />
+                    <BidContainer card={card} bid={bid} setBid={setBid} error={error} setError={setError} account={account} contract={contract} />
                 }
 
             </DialogContent>
