@@ -19,7 +19,7 @@ const useStyles = makeStyles({
     },
     bidContainer: {
         position: 'absolute',
-        left: '320px',
+        left: '300px',
         top: '108px'
     }
 });
@@ -44,6 +44,10 @@ export default function BidContainer({ card, bid, setBid, error, setError }: Bid
                 setError('Must be higher than current price')
             }
         }
+    }
+
+    const makeBid = () => {
+
     }
 
     return (
@@ -71,6 +75,7 @@ export default function BidContainer({ card, bid, setBid, error, setError }: Bid
                             variant='contained'
                             color='secondary'
                             disabled={!!error}
+                            onClick={makeBid}
                         >
                             Bid
                         </Button>

@@ -2,6 +2,8 @@ import React from 'react';
 import { Button, Card, makeStyles, Typography } from '@material-ui/core';
 import { CardData } from '../Content';
 import ProductDialog from './ProductDialog/ProductDialog';
+import Preview from './ProductDialog/Preview/Preview';
+import OwnerIcon from './OwnerIcon/OwnerIcon';
 
 
 export const primary = '#e1f5fe';
@@ -16,10 +18,24 @@ const useStyles = makeStyles({
         margin: '16px',
         padding: '8px',
         display: 'inline-block',
-        // textAlign: 'left'
+        alignContent: 'center',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     datalabel: {
         margin: '8px'
+    },
+    preview: {
+        height: '200px',
+        alignContent: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+        verticalAlign: 'middle',
+        display: 'flex'
+    },
+    bottom: {
+        height: '100px',
+        width: '100%'
     },
     price: {
         position: 'absolute',
@@ -41,21 +57,32 @@ const useStyles = makeStyles({
 
 interface ProductCardProps {
     card: CardData;
+    user: string;
 }
 
-export default function ProductCard({ card }: ProductCardProps) {
+export default function ProductCard({ card, user }: ProductCardProps) {
     const classes = useStyles();
 
     const [open, setOpen] = React.useState(false);
+    const owned = card.owner === user;
 
     return (
         <>
             <Card className={classes.container}>
-                <Typography className={classes.datalabel}>{card.name}</Typography>
-                <Button className={classes.details} variant='contained' color='secondary' onClick={() => setOpen(true)}>Details</Button>
-                <Typography className={classes.price}>{card.price} ETH</Typography>
+                <Typography className={classes.datalabel}>
+                    {card.name}
+                    <OwnerIcon card={card} user={user} />
+                </Typography>
+                <div className={classes.preview}>
+                    <Preview card={card} />
+                </div>
+                <div className={classes.bottom}>
+                    <Button className={classes.details} variant='contained' color='secondary' onClick={() => setOpen(true)}>Details</Button>
+                    <Typography className={classes.price}>{card.price} ETH</Typography>
+                </div>
+
             </Card>
-            <ProductDialog card={card} open={open} setOpen={setOpen} />
+            <ProductDialog card={card} open={open} setOpen={setOpen} user={user} />
         </>
     );
 }
