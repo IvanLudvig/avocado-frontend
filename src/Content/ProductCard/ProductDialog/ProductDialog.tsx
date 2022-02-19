@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, makeStyles, Typography } from '@material-ui/core';
 import { CardData } from '../../Content';
 import BidContainer from './BidContainer/BidContainer';
+import Preview from './Preview/Preview';
 
 export const primary = '#e1f5fe';
 
@@ -21,14 +22,6 @@ const useStyles = makeStyles({
     },
     subtitle: {
         fontWeight: 'bold',
-    },
-    preview: {
-        postion: 'relative',
-        backgroundColor: primary,
-        width: '300px',
-        height: '300px',
-        textAlign: 'center',
-        verticalAlign: 'center',
     },
     descriptionContainer: {
         marginTop: '16px'
@@ -52,13 +45,7 @@ export default function ProductDialog({ card, open, setOpen }: ProductDialogProp
         <Dialog classes={{ paper: classes.container }} open={open} onClose={handleClose}>
             <DialogTitle>{card.name}</DialogTitle>
             <DialogContent>
-                <div
-                    className={classes.preview}
-                    style={{ width: '200px', height: '100px', border: '2px #000 solid' }}
-                >
-                    {card.sizeX}x{card.sizeY}<br />
-                    {card.domain}
-                </div>
+                <Preview card={card} />
 
                 <div className={classes.descriptionContainer}>
                     <Typography className={classes.subtitle}>

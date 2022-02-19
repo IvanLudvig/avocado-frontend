@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, makeStyles, TextField } from '@material-ui/core';
 import { CardData } from '../../../Content';
 
@@ -33,7 +33,7 @@ interface BidContainerProps {
     setError: (bid: string) => void;
 }
 
-export default function BidContainerProps({ card, bid, setBid, error, setError }: BidContainerProps) {
+export default function BidContainer({ card, bid, setBid, error, setError }: BidContainerProps) {
     const classes = useStyles();
 
     const handleChange = (e: any) => {
