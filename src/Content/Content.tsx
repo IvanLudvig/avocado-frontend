@@ -58,7 +58,7 @@ export default function Content() {
     const handleDomain = (e: any) => setDomain(e.target.value);
     const handleCheckbox = (e: any) => setChecked(e.target.checked);
 
-    const user = '0xcb';
+    const user = '0xcbcefb49280bfa3a91d5f5e4f6e56f125ebe199e';
 
     const cards: CardData[] = [
         { name: "Top Banner 1", price: 1.09, description: "300x200", owner: '0xcbcefb49280bfa3a91d5f5e4f6e56f125ebe199e', domain: 'google.com', sizeX: 300, sizeY: 200 },
@@ -66,10 +66,10 @@ export default function Content() {
         { name: "Bottom Box", price: 1, description: "200x200", owner: '0x9nw', domain: 'ethereum.org', sizeX: 300, sizeY: 200 },
         { name: "Top Banner 2", price: 0.87, description: "200x200", owner: '0xcb', domain: 'stackoverflow.com', sizeX: 56, sizeY: 72 },
         { name: "Left Banner 2", price: 0.9110, description: "200x200", owner: '0xcb', domain: 'google.com', sizeX: 32, sizeY: 32 },
-        { name: "Top Banner 3", price: 100, description: "200x200", owner: '0xcb', domain: 'google.com', sizeX: 128, sizeY: 64 },
-        { name: "Left Banner 3", price: 1.32, description: "200x200", owner: '0xcxab', domain: 'stackoverflow.com', sizeX: 200, sizeY: 200 },
-        { name: "Left Banner 4", price: 0.32, description: "200x200", owner: '0xcb', domain: 'facebook.com', sizeX: 1800, sizeY: 600 },
-        { name: "Top Banner 4", price: 4.56, description: "200x200", owner: '0xcb', domain: 'github.com', sizeX: 840, sizeY: 320 },
+        { name: "Top Banner 3", price: 100, description: "200x200", owner: '0xcbcefb49280bfa3a91d5f5e4f6e56f125ebe199e', domain: 'google.com', sizeX: 128, sizeY: 64 },
+        { name: "Left Banner 3", price: 1.32, description: "200x200", owner: '0xcbcefb49280bfa3a91d5f5e4f6e56f125ebe199e', domain: 'stackoverflow.com', sizeX: 200, sizeY: 200 },
+        { name: "Left Banner 4", price: 0.32, description: "200x200", owner: '0xcbcefb49280bfa3a91d5f5e4f6e56f125ebe199e', domain: 'facebook.com', sizeX: 1800, sizeY: 600 },
+        { name: "Top Banner 4", price: 4.56, description: "200x200", owner: '0xcbcefb49280bfa3a91d5f5e4f6e56f125ebe199e', domain: 'github.com', sizeX: 840, sizeY: 320 },
     ]
 
     return (

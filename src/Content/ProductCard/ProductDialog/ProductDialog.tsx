@@ -25,13 +25,15 @@ const useStyles = makeStyles({
     manage: {
         position: 'absolute',
         left: '300px',
-        top: '160px'
+        top: '100px'
     },
     subtitle: {
         fontWeight: 'bold',
     },
     descriptionContainer: {
-        marginTop: '16px'
+        marginTop: '16px',
+        width: '250px',
+        wordBreak: 'break-all'
     },
     adField: {
         // height: '150px',
@@ -90,14 +92,16 @@ export default function ProductDialog({ card, open, setOpen, user }: ProductDial
                         <Typography className={classes.subtitle}>
                             Manage
                         </Typography>
-                        <TextField className={classes.adField} label='HTML' variant='outlined' multiline rows={3}>
+                        <TextField color='secondary' className={classes.adField} label='HTML' variant='outlined' multiline rows={3}>
 
                         </TextField>
-                        <Button className={classes.upload} color='secondary' >Upload Ad</Button>
+                        <Button className={classes.upload} color='secondary'>Update</Button>
                     </div>
                 }
 
-                <BidContainer card={card} bid={bid} setBid={setBid} error={error} setError={setError} />
+                {!owned &&
+                    <BidContainer card={card} bid={bid} setBid={setBid} error={error} setError={setError} />
+                }
 
             </DialogContent>
             <DialogActions>

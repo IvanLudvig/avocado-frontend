@@ -5,7 +5,6 @@ import ProductDialog from './ProductDialog/ProductDialog';
 import Preview from './ProductDialog/Preview/Preview';
 import OwnerIcon from './OwnerIcon/OwnerIcon';
 
-
 export const primary = '#e1f5fe';
 
 const useStyles = makeStyles({
