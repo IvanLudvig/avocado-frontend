@@ -37,7 +37,7 @@ export default function Preview({ card, owned }: PreviewProps) {
         <div
             className={classes.preview}
         >
-            {owned ?
+            {card.html.length > 0 ?
                 <div style={{ width: w, height: h }}>
                     {parse(card.html)}
                 </div>

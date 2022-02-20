@@ -96,7 +96,8 @@ export default function BidContainer({ card, bid, setBid, error, setError, contr
             .request({
                 method: 'eth_sendTransaction',
                 params: [tx],
-            });
+            })
+            .then((result: any) => window.location.reload());
 
         handleClose();
     }

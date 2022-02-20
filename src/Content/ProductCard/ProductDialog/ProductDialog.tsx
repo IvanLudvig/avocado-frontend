@@ -109,7 +109,8 @@ export default function ProductDialog({ card, open, setOpen, account, contract }
                     .request({
                         method: 'eth_sendTransaction',
                         params: [tx],
-                    }));
+                    })
+                    .then((result: any) => window.location.reload()));
             } catch (error) {
                 console.log(error)
             }
@@ -137,7 +138,7 @@ export default function ProductDialog({ card, open, setOpen, account, contract }
                         .request({
                             method: 'eth_sendTransaction',
                             params: [tx],
-                        }));
+                        }).then((result: any) => window.location.reload()));
                 } catch (error) {
                     console.log(error)
                 }
@@ -160,7 +161,7 @@ export default function ProductDialog({ card, open, setOpen, account, contract }
                         .request({
                             method: 'eth_sendTransaction',
                             params: [tx],
-                        }));
+                        }).then((result: any) => window.location.reload()));
                 } catch (error) {
                     console.log(error)
                 }

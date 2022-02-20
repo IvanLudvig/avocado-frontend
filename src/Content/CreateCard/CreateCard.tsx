@@ -78,7 +78,7 @@ export default function CreateCard({ contract, currentAccount, open, setOpen }: 
                     .request({
                         method: 'eth_sendTransaction',
                         params: [tx],
-                    }));
+                    }).then((result: any) => window.location.reload()));
             } catch (error) {
                 console.log(error)
             }

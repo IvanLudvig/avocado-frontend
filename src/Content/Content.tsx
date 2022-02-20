@@ -10,7 +10,7 @@ import { Contract } from 'web3-eth-contract';
 import { Web3Provider } from '@ethersproject/providers';
 import CreateCard from './CreateCard/CreateCard';
 
-export const CONTRACT = '0xd5B990a58391402914CC80E7dC33221A20361762';
+export const CONTRACT = '0x7510bE3a2492950baC0B20DD884e08A9b73c9F2A';
 
 
 const useStyles = makeStyles({
@@ -84,8 +84,10 @@ export default function Content() {
     const handleCheckbox = (e: any) => setChecked(e.target.checked);
     const handleCheckbox1 = (e: any) => setChecked1(e.target.checked);
 
+    const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+
+
     async function load() {
-        const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
         const contract = new web3.eth.Contract(abi as any, CONTRACT);
         setContract(contract);
         console.log(contract.methods);
@@ -137,17 +139,6 @@ export default function Content() {
     useEffect(() => {
         load();
     }, []);
-    useEffect(() => {
-        console.log(`listening for blocks...`)
-
-        ethereum.enable().then((accs: any) => {
-            ethereum.on('accountsChanged', (accounts: any) => {
-                load();
-            })
-        });
-    }, [currentAccount]);
-
-    const { account, library } = useWeb3React<Web3Provider>();
 
 
     //@ts-ignore
@@ -156,6 +147,10 @@ export default function Content() {
         const [account] = await ethereum.request({ method: 'eth_requestAccounts' });
         setCurrentAccount(account);
     }
+
+    useEffect(() => {
+        connect();
+    }, []);
 
     return (
         <div className={classes.root}>
