@@ -41,7 +41,6 @@ const useStyles = makeStyles({
         wordBreak: 'break-all'
     },
     adField: {
-        // height: '150px',
         marginTop: '8px',
         marginBottom: '8px',
         width: '284px',
@@ -50,6 +49,11 @@ const useStyles = makeStyles({
     upload: {
         float: 'right',
         marginRight: '16px'
+    },
+    ban: {
+        color: '#ff0000',
+        marginTop: '8px',
+        marginLeft: '-8px'
     }
 });
 
@@ -72,9 +76,9 @@ export default function ProductDialog({ card, open, setOpen, account, contract }
         let secTimer = setInterval(() => {
             const duration = moment.duration(Math.max(card.duration - (Math.floor(Date.now() / 1000) - card.purchaseTime), 0), 'seconds');
             let d = duration.days() ? duration.days() + 'd:' : '';
-            d += d || duration.hours() ? duration.hours()+ 'h:' : '';
-            d += d || duration.minutes() ? duration.minutes()+ 'm:' : '';
-            d += d || duration.seconds() ? duration.seconds()+ 's' : '';
+            d += d || duration.hours() ? duration.hours() + 'h:' : '';
+            d += d || duration.minutes() ? duration.minutes() + 'm:' : '';
+            d += d || duration.seconds() ? duration.seconds() + 's' : '';
             setTime(d);
         }, 1000)
 
@@ -85,6 +89,7 @@ export default function ProductDialog({ card, open, setOpen, account, contract }
     const handleClose = () => setOpen(false);
 
     const owned = card.owner.toLowerCase() === account.toLowerCase();
+    const created = card.creator.toLowerCase() === account.toLowerCase();
 
     const update = async () => {
         if (contract && account) {
@@ -108,6 +113,59 @@ export default function ProductDialog({ card, open, setOpen, account, contract }
             } catch (error) {
                 console.log(error)
             }
+        }
+        setOpen(false)
+    }
+
+    const ban = async () => {
+        if (contract && account) {
+            if ((!owned) && (created)) {
+                console.log('banUser');
+                var transfer = contract.methods.banUser(card.id);
+                var encodedABI = transfer.encodeABI();
+
+                var tx = {
+                    from: account,
+                    to: CONTRACT,
+                    gas: '150000',
+                    data: encodedABI
+                };
+
+                try {
+                    //@ts-ignore
+                    console.log(await window.ethereum
+                        .request({
+                            method: 'eth_sendTransaction',
+                            params: [tx],
+                        }));
+                } catch (error) {
+                    console.log(error)
+                }
+            } 
+            if ((!created) && (owned)) {
+                console.log('banSpaceOwners');
+                var transfer = contract.methods.banSpaceOwners(card.id);
+                var encodedABI = transfer.encodeABI();
+
+                var tx = {
+                    from: account,
+                    to: CONTRACT,
+                    gas: '150000',
+                    data: encodedABI
+                };
+
+                try {
+                    //@ts-ignore
+                    console.log(await window.ethereum
+                        .request({
+                            method: 'eth_sendTransaction',
+                            params: [tx],
+                        }));
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+
         }
         setOpen(false)
     }
@@ -153,6 +211,9 @@ export default function ProductDialog({ card, open, setOpen, account, contract }
                         <Button className={classes.upload} color='secondary' onClick={update}>Update</Button>
                     </div>
                 }
+
+                {(!owned) && (created) && <Button className={classes.ban} color='secondary' variant='text' onClick={ban}>Ban Advertiser</Button>}
+                {(owned) && (!created) && <Button className={classes.ban} color='secondary' variant='text' onClick={ban}>Ban Space Owner</Button>}
 
                 {!owned &&
                     <BidContainer

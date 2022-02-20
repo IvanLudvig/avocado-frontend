@@ -49,7 +49,7 @@ export default function CreateCard({ contract, currentAccount, open, setOpen }: 
     const [description, setDescription] = useState('Footer banner');
     const [domain, setDomain] = useState('github.com');
     const [price, setPrice] = useState(0.1);
-    const [timespan, setTimespan] = useState(60 * 60);
+    // const [timespan, setTimespan] = useState(60 * 60);
     const [width, setWidth] = useState(100);
     const [height, setHeight] = useState(100);
 
@@ -62,7 +62,7 @@ export default function CreateCard({ contract, currentAccount, open, setOpen }: 
             const nonce = await web3.eth.getTransactionCount(currentAccount, 'latest');
 
             const value = web3.utils.toHex(web3.utils.toWei(price + '', 'ether'));
-            var transfer = contract.methods.addAdvSpace(value, timespan, domain, height, width, name, description);
+            var transfer = contract.methods.addAdvSpace(value, domain, height, width, name, description);
             var encodedABI = transfer.encodeABI();
 
             var tx = {
@@ -96,7 +96,7 @@ export default function CreateCard({ contract, currentAccount, open, setOpen }: 
                 <TextField className={classes.field} value={domain} onChange={handleChange(setDomain)} color='secondary' label='Domain' variant='standard' />
                 <TextField className={classes.field} value={price} onChange={handleChange(setPrice)} color='secondary' label='Price, ETH' variant='standard' type='number' />
                 <TextField className={classes.field} value={description} onChange={handleChange(setDescription)} color='secondary' label='Description' variant='standard' />
-                <TextField className={classes.field} value={timespan} onChange={handleChange(setTimespan)} color='secondary' type='number' label='Timespan, seconds' variant='standard' />
+                {/* <TextField className={classes.field} value={timespan} onChange={handleChange(setTimespan)} color='secondary' type='number' label='Timespan, seconds' variant='standard' /> */}
                 <TextField className={classes.field} value={width} onChange={handleChange(setWidth)} color='secondary' label='Width, px' variant='standard' type='number' />
                 <TextField className={classes.field} value={height} onChange={handleChange(setHeight)} color='secondary' label='Height, px' variant='standard' type='number' />
 

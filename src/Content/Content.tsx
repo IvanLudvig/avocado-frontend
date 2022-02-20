@@ -10,7 +10,7 @@ import { Contract } from 'web3-eth-contract';
 import { Web3Provider } from '@ethersproject/providers';
 import CreateCard from './CreateCard/CreateCard';
 
-export const CONTRACT = '0xb3D41cf53304bf0BB9c3D44Df2CF9E88A8C4Af44';
+export const CONTRACT = '0xd5B990a58391402914CC80E7dC33221A20361762';
 
 
 const useStyles = makeStyles({
@@ -58,6 +58,7 @@ export type CardData = {
     price: number;
     description: string;
     owner: string;
+    creator: string;
     html: string;
     duration: number;
     purchaseTime: number;
@@ -72,6 +73,7 @@ export default function Content() {
     const [search, setSearch] = useState('');
     const [domain, setDomain] = useState('');
     const [checked, setChecked] = useState(false);
+    const [checked1, setChecked1] = useState(false);
     const [open, setOpen] = useState(false);
     const [contract, setContract] = useState<Contract>();
 
@@ -80,6 +82,7 @@ export default function Content() {
     const handleSearch = (e: any) => setSearch(e.target.value);
     const handleDomain = (e: any) => setDomain(e.target.value);
     const handleCheckbox = (e: any) => setChecked(e.target.checked);
+    const handleCheckbox1 = (e: any) => setChecked1(e.target.checked);
 
     async function load() {
         const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
@@ -99,6 +102,7 @@ export default function Content() {
                             price: web3.utils.fromWei(res.price, 'ether'),
                             description: "",
                             owner: res.owner,
+                            creator: res.creator,
                             domain: res.domain,
                             duration: res.durationInSeconds,
                             purchaseTime: res.purchaseTime,
@@ -192,9 +196,17 @@ export default function Content() {
 
                 <FormControlLabel
                     className={classes.checkbox}
-                    label="Owned by me"
+                    label="Rented by me"
                     control={
                         <Checkbox checked={checked} onChange={handleCheckbox} />
+                    }
+                />
+
+                <FormControlLabel
+                    className={classes.checkbox}
+                    label="Created by me"
+                    control={
+                        <Checkbox checked={checked1} onChange={handleCheckbox1} />
                     }
                 />
 
@@ -215,7 +227,13 @@ export default function Content() {
                         || card.name.toLowerCase().includes(search.toLowerCase())
                         || card.domain?.toLowerCase().includes(search.toLowerCase()))
                         .filter(card => card.domain?.toLowerCase().includes(domain.toLowerCase()))
-                        .filter(card => !checked || (card.owner.toLowerCase() === currentAccount.toLowerCase()))
+                        .filter(card => !checked || (
+                            (card.owner.toLowerCase() === currentAccount.toLowerCase())
+                            && (card.creator.toLowerCase() !== currentAccount.toLowerCase())
+                        ))
+                        .filter(card => !checked1 || (
+                            (card.creator.toLowerCase() === currentAccount.toLowerCase())
+                        ))
                         .map(card =>
                             <ProductCard key={'card' + card.id} card={card} account={currentAccount} contract={contract} />
                         )}
