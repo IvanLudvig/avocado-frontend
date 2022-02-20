@@ -10,7 +10,7 @@ import { Contract } from 'web3-eth-contract';
 import { Web3Provider } from '@ethersproject/providers';
 import CreateCard from './CreateCard/CreateCard';
 
-export const CONTRACT = '0xF79202d560f583c17d5051C335Df8ec9410CBD55';
+export const CONTRACT = '0xb3D41cf53304bf0BB9c3D44Df2CF9E88A8C4Af44';
 
 
 const useStyles = makeStyles({
@@ -59,6 +59,8 @@ export type CardData = {
     description: string;
     owner: string;
     html: string;
+    duration: number;
+    purchaseTime: number;
     domain?: string;
     sizeX?: number;
     sizeY?: number;
@@ -98,6 +100,8 @@ export default function Content() {
                             description: "",
                             owner: res.owner,
                             domain: res.domain,
+                            duration: res.durationInSeconds,
+                            purchaseTime: res.purchaseTime,
                             sizeX: parseInt(res.width),
                             sizeY: parseInt(res.height),
                             html: res.html
@@ -105,8 +109,20 @@ export default function Content() {
                         return card;
                     }) as CardData[];
 
+                    newCards.map((card) => {
+                        contract.methods
+                            .getPriceForAdv(card.id)
+                            .call({ from: currentAccount })
+                            .then(
+                                (result: any) => {
+                                    console.log(result);
+                                }
+                            );
+                    });
+
                     setCards(newCards);
 
+                    console.log(newCards);
                     return () => {
                         ethereum.removeAllListeners('accountsChanged')
                     }

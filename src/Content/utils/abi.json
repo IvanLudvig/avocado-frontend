@@ -112,11 +112,6 @@
 				"type": "uint256"
 			},
 			{
-				"internalType": "uint256",
-				"name": "durationInSeconds",
-				"type": "uint256"
-			},
-			{
 				"internalType": "string",
 				"name": "domain",
 				"type": "string"
@@ -211,7 +206,7 @@
 			},
 			{
 				"internalType": "uint256",
-				"name": "durationInSeconds",
+				"name": "durationInDays",
 				"type": "uint256"
 			}
 		],
@@ -367,7 +362,7 @@
 				"type": "uint256"
 			}
 		],
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -461,19 +456,6 @@
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "id",
-				"type": "uint256"
-			}
-		],
-		"name": "removeAdvFromUser",
-		"outputs": [],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{

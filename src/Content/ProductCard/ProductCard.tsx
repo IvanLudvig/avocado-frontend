@@ -78,7 +78,7 @@ export default function ProductCard({ card, account, contract }: ProductCardProp
                 </div>
                 <div className={classes.bottom}>
                     <Button className={classes.details} variant='contained' color='secondary' onClick={() => setOpen(true)}>Details</Button>
-                    <Typography className={classes.price}>{card.price} ETH</Typography>
+                    <Typography className={classes.price}>{card.price} ETH/day</Typography>
                 </div>
 
             </Card>

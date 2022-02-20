@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, makeStyles, TextField, Typography } from '@material-ui/core';
 import { CardData, CONTRACT } from '../../Content';
 import BidContainer from './BidContainer/BidContainer';
@@ -8,6 +8,7 @@ import { Contract } from 'web3-eth-contract';
 import description from 'material-ui/svg-icons/action/description';
 import domain from 'material-ui/svg-icons/social/domain';
 import Web3 from 'web3';
+import moment from 'moment';
 
 export const primary = '#e1f5fe';
 
@@ -65,6 +66,21 @@ export default function ProductDialog({ card, open, setOpen, account, contract }
     const [bid, setBid] = useState(card.price);
     const [manage, setManage] = useState(card.html);
     const [error, setError] = useState('');
+    const [time, setTime] = useState('');
+
+    useEffect(() => {
+        let secTimer = setInterval(() => {
+            const duration = moment.duration(Math.max(card.duration - (Math.floor(Date.now() / 1000) - card.purchaseTime), 0), 'seconds');
+            let d = duration.days() ? duration.days() + 'd:' : '';
+            d += d || duration.hours() ? duration.hours()+ 'h:' : '';
+            d += d || duration.minutes() ? duration.minutes()+ 'm:' : '';
+            d += d || duration.seconds() ? duration.seconds()+ 's' : '';
+            setTime(d);
+        }, 1000)
+
+        return () => clearInterval(secTimer);
+    }, []);
+
 
     const handleClose = () => setOpen(false);
 
@@ -112,13 +128,19 @@ export default function ProductDialog({ card, open, setOpen, account, contract }
                 </div>
                 <div className={classes.descriptionContainer}>
                     <Typography className={classes.subtitle}>
+                        Time left
+                    </Typography>
+                    {time}
+                </div>
+                <div className={classes.descriptionContainer}>
+                    <Typography className={classes.subtitle}>
                         Owner
                     </Typography>
                     {card.owner}
                 </div>
 
                 <Typography className={classes.price}>
-                    Current Price: {card.price} ETH
+                    Current Price: {card.price} ETH/day
                 </Typography>
 
                 {owned &&
